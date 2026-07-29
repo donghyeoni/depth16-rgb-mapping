@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (user-supplied 16-bit depth PNGs) and image outputs
+data/*
+!data/README.md
+*.png
+
+# OS
+.DS_Store
