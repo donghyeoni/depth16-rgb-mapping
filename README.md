@@ -1,5 +1,7 @@
 # depth16-rgb-mapping
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+
 Encode a single-channel **16-bit depth image** into an **8-bit-per-channel RGB**
 image, reconstruct the original depth from that RGB, and measure the fidelity of
 the round-trip with **Mean Squared Error (MSE)**.
