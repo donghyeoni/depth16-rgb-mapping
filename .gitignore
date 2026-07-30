@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 
+# Virtual environment
+.venv/
+venv/
+
 # Jupyter
 .ipynb_checkpoints/
 
@@ -9,6 +13,9 @@ __pycache__/
 data/*
 !data/README.md
 *.png
+
+# ...but keep the committed results/ artifacts (figures, logs, synthetic input)
+!results/**
 
 # OS
 .DS_Store

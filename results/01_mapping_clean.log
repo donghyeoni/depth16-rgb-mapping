@@ -1,0 +1,21 @@
+
+=== Method 1 (byte split) ===
+  D1_16.png: MSE = 21771.33
+  D2_16.png: MSE = 21677.33
+  D3_16.png: MSE = 21568.23
+  D4_16.png: MSE = 21277.71
+  D5_16.png: MSE = 21990.87
+
+=== Method 2 (spectral wheel) ===
+  D1_16.png: MSE = 642.91
+  D2_16.png: MSE = 631.48
+  D3_16.png: MSE = 641.63
+  D4_16.png: MSE = 637.11
+  D5_16.png: MSE = 635.33
+
+=== Method 3 (6/6/4 bit-field) ===
+  D1_16.png: MSE = 0.00
+  D2_16.png: MSE = 0.00
+  D3_16.png: MSE = 0.00
+  D4_16.png: MSE = 0.00
+  D5_16.png: MSE = 0.00

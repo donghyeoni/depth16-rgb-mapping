@@ -56,10 +56,13 @@ The project uses **five 16-bit grayscale depth PNGs**, named
 `D1_16.png` .. `D5_16.png`, loaded locally with `cv2.IMREAD_UNCHANGED` so the
 full 0..65535 range is preserved.
 
-These images are **not included** in this repository. Supply your own 16-bit
-depth PNGs by placing them in the `data/` directory (see `data/README.md`). The
-original notebooks loaded them from Google Drive in Colab; those hard-coded
-paths have been replaced by a configurable local directory and `--data-dir`.
+These sensor images are **not included** in this repository. To keep the
+pipeline **reproducible with no external data**, `run_all.py` synthesizes five
+deterministic 16-bit depth maps (fixed seeds) under `results/synthetic_data/`
+and runs both experiments on them — the committed results are produced this way.
+You can still supply your own 16-bit depth PNGs in `data/` (see `data/README.md`)
+and pass `--data-dir`; the original notebooks loaded them from Google Drive in
+Colab.
 
 ## Repository structure
 
@@ -75,10 +78,13 @@ depth16-rgb-mapping/
 ├── experiments/
 │   ├── 01_mapping_clean.py     # Project 1: clean mapping + reconstruction + MSE
 │   └── 02_mapping_degraded.py  # Project 2: degradation (noise + JPEG) + MSE + histogram
-├── notebooks/              # original Colab notebooks (unmodified)
+├── run_all.py              # synthesize 5 depth maps + run both experiments -> results/
+├── results/                # committed artifacts: logs, mse_summary.json, synthetic data
+│   └── notebook_reference/ # figures/logs preserved from the original notebooks
 ├── docs/                   # project report (PDF)
-├── data/                   # user-supplied depth PNGs (git-ignored)
+├── data/                   # optional: your own depth PNGs (git-ignored)
 ├── requirements.txt
+├── RESULTS.md
 └── README.md
 ```
 
@@ -95,7 +101,13 @@ Requires: `numpy`, `opencv-python`, `matplotlib`.
 
 ## Usage
 
-Put `D1_16.png` .. `D5_16.png` in `data/`, then:
+Reproduce all committed results on synthetic depth maps (no data needed):
+
+```bash
+python run_all.py        # writes results/ (logs + mse_summary.json), see RESULTS.md
+```
+
+Or run on your own images. Put `D1_16.png` .. `D5_16.png` in `data/`, then:
 
 ```bash
 # Project 1: clean round-trip, print MSE for all three methods
@@ -117,15 +129,19 @@ python experiments/01_mapping_clean.py --data-dir /path/to/my/depth/pngs
 ## Notes
 
 * **Faithful port.** The three algorithms are preserved exactly from the
-  original Colab notebooks (kept unmodified under `notebooks/`). The code was
-  refactored into modules; the mapping math was not changed.
-* **Integer dtype corrections.** Three small dtype fixes relative to the
-  notebooks, none of which change the algorithms — they only prevent overflow
-  under modern NumPy (2.x): `calculate_mse` casts to `float64` before
+  original Colab notebooks. The code was refactored into modules; the mapping
+  math was not changed. The notebooks have been removed, but their embedded
+  figures/logs are preserved under `results/notebook_reference/`.
+* **Integer dtype corrections.** Small dtype fixes relative to the notebooks,
+  none of which change the algorithms — they only preserve the original
+  behaviour under modern NumPy (2.x): `calculate_mse` casts to `float64` before
   differencing; `map_to_value` casts channels to Python `int` before its
-  `1280 + ...` arithmetic; and `map_rgb_to_16bit` casts channels to `int`
-  before the `<< 10` shift (a `uint8` shift would wrap to 0). With these,
-  Method 3's clean round-trip is exactly lossless (MSE = 0) as intended.
+  `1280 + ...` arithmetic; and `map_rgb_to_16bit` casts channels to `int` before
+  the `<< 10` shift, then masks the packed value with `& 0xFFFF`. The mask
+  reproduces NumPy < 2's silent 16-bit wrap-around on assignment (NumPy >= 2
+  raises `OverflowError` instead) for the degraded case, where noise can push a
+  channel past its bit-field width. With these, Method 3's clean round-trip is
+  exactly lossless (MSE = 0) as intended.
 * **Method 2 inverse behaviour.** In the clean pipeline, RGB triples that match
   no color-wheel segment are treated as `None`; under degradation
   (`clamp_unknown=True`) they fall back to `0`, matching the notebooks where

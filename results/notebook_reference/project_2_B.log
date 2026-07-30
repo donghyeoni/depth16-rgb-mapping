@@ -1,0 +1,9 @@
+[cell 00 stream stdout]
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+
+[cell 01 stream stdout]
+/content/drive/My Drive/Colab Notebooks/D1_16.png의 최대 픽셀 값: 44767
+/content/drive/My Drive/Colab Notebooks/D2_16.png의 최대 픽셀 값: 10023
+/content/drive/My Drive/Colab Notebooks/D3_16.png의 최대 픽셀 값: 3194
+/content/drive/My Drive/Colab Notebooks/D4_16.png의 최대 픽셀 값: 28280
+/content/drive/My Drive/Colab Notebooks/D5_16.png의 최대 픽셀 값: 16700

@@ -89,6 +89,11 @@ def map_rgb_to_16bit(rgb_image):
             g_ch = int(rgb_image[i, j, 1])
             b_ch = int(rgb_image[i, j, 2])
 
-            restored_image[i, j] = (r_ch << 10) | (g_ch << 4) | b_ch
+            # For clean input the channels hold 6/6/4-bit fields, so the packed
+            # value fits in 16 bits. Degraded (noisy) input can push it past
+            # 65535; mask to 16 bits to preserve the original wrap-around
+            # behaviour (NumPy < 2 wrapped silently on assignment; NumPy >= 2
+            # raises OverflowError instead).
+            restored_image[i, j] = ((r_ch << 10) | (g_ch << 4) | b_ch) & 0xFFFF
 
     return restored_image

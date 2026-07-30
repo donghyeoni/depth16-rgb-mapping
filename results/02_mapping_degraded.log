@@ -1,0 +1,28 @@
+
+=== Method 1 (byte split, QP=90) ===
+  D1_16.png: MSE = 270410.46
+  D2_16.png: MSE = 271029.05
+  D3_16.png: MSE = 266509.86
+  D4_16.png: MSE = 215255.05
+  D5_16.png: MSE = 183399.84
+
+=== Method 2 (spectral wheel) ===
+  D1_16.png: MSE = 862004261.51
+  D2_16.png: MSE = 744896593.26
+  D3_16.png: MSE = 653818968.91
+  D4_16.png: MSE = 537735474.68
+  D5_16.png: MSE = 236355622.00
+
+=== Method 3 (6/6/4 bit-field) ===
+  D1_16.png: MSE = 90845192.13
+  D2_16.png: MSE = 110434763.30
+  D3_16.png: MSE = 78818592.88
+  D4_16.png: MSE = 60261570.93
+  D5_16.png: MSE = 55075097.27
+
+=== Project 2 (B): per-image max normalization variant ===
+  D1_16.png: MSE = 159309900.49
+  D2_16.png: MSE = 207328303.69
+  D3_16.png: MSE = 179183242.16
+  D4_16.png: MSE = 23007174.71
+  D5_16.png: MSE = 7138053.60
